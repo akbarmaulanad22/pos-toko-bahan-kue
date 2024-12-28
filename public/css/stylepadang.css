@@ -1,0 +1,8 @@
+.form-product .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-product input{
+  border-radius: 0;
+  margin-bottom: -1px;
+}

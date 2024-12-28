@@ -1,0 +1,117 @@
+* {
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+::-webkit-scrollbar {
+    display: none
+}
+
+
+body {
+   
+    width: 60%;
+    margin: auto;
+}
+
+header {
+    padding: 3rem 0.7rem 0px 0.7rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 1rem; */
+}
+
+.link-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    /* atas kanan bawah kiri */
+    padding: 2rem 0.7rem 4rem 0.7rem;
+
+}
+
+.link-wrapper>a {
+    text-decoration: none;
+}
+
+.row {
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+    /* grid-gap: 1px; */
+    /* grid-template-rows: repeat(3, 1fr); */
+    grid-template-columns: repeat(var(--repeat, auto-fit), minmax(calc(202px * 1), 1fr));
+    padding-bottom: 2rem;
+    padding-top: 3rem;
+}
+
+.col {
+    position: relative;
+    max-width: 230px;
+    padding: 8px; 
+}
+
+.col>.category-box{
+    margin: 0.5rem;
+    padding: 0.2rem;
+    background-color: antiquewhite;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.col>.category-box>p{
+    opacity: 100%;
+}
+
+.col>img {
+    width: 100%;
+}
+
+.col>p {
+    display: flex;
+    justify-content: space-between;
+}
+
+.col-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.button-wrap {
+    display: grid;
+    grid-auto-flow: column;
+    overflow-x: scroll;
+    text-align: end;
+    width: 50%;
+}
+
+@media only screen and (max-width: 570px) { 
+    header{
+        padding: 0;
+        padding-top: 3rem;
+    }
+    
+    .link-wrapper {
+        justify-content: center;
+    }
+
+    .link-wrapper > form {
+        min-width: 185px;
+        width: 210px;
+    }
+
+    .link-wrapper > form > input {
+
+        width: 100%;
+    }
+}

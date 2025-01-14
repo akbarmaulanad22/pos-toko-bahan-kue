@@ -1,161 +1,311 @@
-<!doctype html>
-<html lang="en" data-bs-theme="auto">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <script src="/js/color-modes.js"></script>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title }}</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
-    
-    @stack('css')
-    
-    <!-- Custom styles for this template -->
-    <link href="/css/stylepadang.css" rel="stylesheet">
-    <link href="/css/stylejawa.css" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"
+        integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            /* display: none; <- Crashes Chrome on hover */
-            -webkit-appearance: none;
+        body {
+            display: flex;
+            min-height: 100vh;
             margin: 0;
-            /* <-- Apparently some margin are still there even though it's hidden */
+            overflow-x: hidden;
         }
 
-        input[type=number] {
-            -moz-appearance: textfield;
-            /* Firefox */
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: #fff;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: -250px;
+            transition: all 0.3s;
+            z-index: 1040;
+            display: flex;
+            flex-direction: column;
         }
 
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .sidebar hr {
+            border-color: #495057;
+            margin: 10px 0;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .submenu {
+            margin-left: 15px;
+            padding-left: 10px;
+            border-left: 2px solid #495057;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        .submenu a {
+            padding: 5px 10px;
+        }
+
+        .submenu.open {
+            max-height: 200px;
+            /* Adjust based on submenu content */
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: 0;
+            transition: margin-left 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content.sidebar-active {
+            margin-left: 250px;
+        }
+
+        .header,
+        .footer {
+            background-color: #f8f9fa;
+            padding: 15px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #e9ecef;
+        }
+
+        .burger-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #000;
+            display: inline-block;
+        }
+
+        .notification {
+            position: relative;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .notification .badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 0.75rem;
+        }
+
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: -9.5rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            z-index: 1050;
+        }
+
+
+        .notification-dropdown ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .notification-dropdown li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .notification-dropdown li:last-child {
+            border-bottom: none;
+        }
+
+        .logout-form {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sidebar-settings {
+            margin-top: auto;
         }
 
         @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
+            .main-content.sidebar-active {
+                margin-left: 250px;
             }
         }
-
-        .b-example-divider {
-            width: 100%;
-            height: 3rem;
-            background-color: rgba(0, 0, 0, .1);
-            border: solid rgba(0, 0, 0, .15);
-            border-width: 1px 0;
-            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-        }
-
-        .b-example-vr {
-            flex-shrink: 0;
-            width: 1.5rem;
-            height: 100vh;
-        }
-
-        .bi {
-            vertical-align: -.125em;
-            fill: currentColor;
-        }
-
-        .nav-scroller {
-            position: relative;
-            z-index: 2;
-            height: 2.75rem;
-            overflow-y: hidden;
-        }
-
-        .nav-scroller .nav {
-            display: flex;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .btn-bd-primary {
-            --bd-violet-bg: #712cf9;
-            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-            --bs-btn-font-weight: 600;
-            --bs-btn-color: var(--bs-white);
-            --bs-btn-bg: var(--bd-violet-bg);
-            --bs-btn-border-color: var(--bd-violet-bg);
-            --bs-btn-hover-color: var(--bs-white);
-            --bs-btn-hover-bg: #6528e0;
-            --bs-btn-hover-border-color: #6528e0;
-            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-            --bs-btn-active-color: var(--bs-btn-hover-color);
-            --bs-btn-active-bg: #5a23c8;
-            --bs-btn-active-border-color: #5a23c8;
-        }
-
-        .bd-mode-toggle {
-            z-index: 1500;
-        }
-
-        .bd-mode-toggle .dropdown-menu .active .bi {
-            display: block !important;
-        }
     </style>
-
 </head>
 
-
 <body>
-    @include('partials.admin.toggle_color')
-
-    @include('partials.admin.header')
-
-    <div class="container-fluid">
-        <div class="row" id="main-wrapper">
-
-            @include('partials.admin.sidebar')
-
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div
-                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">{{ $title }}</h1>
-                </div>
-
-                @yield('content')
-
-            </main>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h2>Toko Azka</h2>
+        <hr>
+        <a href="#">Dashboard</a>
+        <div>
+            <a href="#" class="menu-toggle" data-target="submenu-products">Products</a>
+            <div class="submenu" id="submenu-products">
+                <a href="#">Add Product</a>
+                <a href="#">View Products</a>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="menu-toggle" data-target="submenu-orders">Orders</a>
+            <div class="submenu" id="submenu-orders">
+                <a href="#">New Orders</a>
+                <a href="#">Order History</a>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="menu-toggle" data-target="submenu-customers">Customers</a>
+            <div class="submenu" id="submenu-customers">
+                <a href="#">Add Customer</a>
+                <a href="#">View Customers</a>
+            </div>
+        </div>
+        <hr>
+        <div class="sidebar-settings">
+            <a href="#">Settings</a>
         </div>
     </div>
 
-    {{-- bootstrap js --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="header">
+            <button class="burger-button" id="burgerButton" aria-label="Toggle Sidebar">&#9776;</button>
+            <div class="d-flex align-items-center gap-4">
+                <div class="notification">
+                    <i class="bi bi-bell"></i>
+                    <span class="badge">3</span>
+                    <div class="notification-dropdown">
+                        <ul>
+                            <li>Notification 1</li>
+                            <li>Notification 2</li>
+                            <li>Notification 3</li>
+                        </ul>
+                    </div>
+                </div>
+                <form class="logout-form">
+                    <span>Welcome, Admin</span>
+                    <button class="border-0 bg-transparent">
+                        <i class="bi bi-box-arrow-right text-dark"></i>
+                    </button>
+                </form>
+            </div>
+        </header>
 
-    @stack('scripts')
-  
+        <!-- Content -->
+        <div class="content">
+            <h2>Dashboard Overview</h2>
+            <p>This is the main content area where data and charts will be displayed.</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Your Company. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const imgPreview = document.querySelector("#imagePreview");
+        const burgerButton = document.getElementById('burgerButton');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
 
-        function imageInputHandler(e) {
-            const [file] = e.files
-            if (file) {
-                imgPreview.src = URL.createObjectURL(file)
-                imgPreview.style.display = "block"
+        // Function to initialize sidebar state based on screen size
+        function initializeSidebar() {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.add('active');
+                mainContent.classList.add('sidebar-active');
+            } else {
+                sidebar.classList.remove('active');
+                mainContent.classList.remove('sidebar-active');
             }
         }
+
+        // Initialize sidebar on load
+        initializeSidebar();
+
+        // Reinitialize sidebar on window resize
+        window.addEventListener('resize', initializeSidebar);
+
+        // Toggle sidebar on burger button click
+        burgerButton.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            mainContent.classList.toggle('sidebar-active');
+        });
+
+        // Submenu toggle functionality
+        document.querySelectorAll('.menu-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const target = document.getElementById(this.getAttribute('data-target'));
+                if (target) {
+                    target.classList.toggle('open');
+                }
+            });
+        });
+
+        const notificationIcon = document.querySelector('.notification');
+        const notificationDropdown = document.querySelector('.notification-dropdown');
+
+        // Toggle dropdown on click
+        notificationIcon.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent event bubbling
+            notificationDropdown.style.display =
+                notificationDropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            notificationDropdown.style.display = 'none';
+        });
     </script>
-    
 </body>
 
 </html>

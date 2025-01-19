@@ -1,27 +1,22 @@
-<header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">Company name</a>
-
-    <ul class="navbar-nav flex-row d-md-none">
-        <li class="nav-item text-nowrap">
-            <button class="nav-link px-3 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch"
-                aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle search">
-                <svg class="bi">
-                    <use xlink:href="#search" />
-                </svg>
+<header class="header">
+    <button class="burger-button" id="burgerButton" aria-label="Toggle Sidebar">&#9776;</button>
+    <div class="d-flex align-items-center gap-4">
+        <div class="notification">
+            <i class="bi bi-bell"></i>
+            <span class="badge">3</span>
+            <div class="notification-dropdown">
+                <ul>
+                    <li>Notification 1</li>
+                    <li>Notification 2</li>
+                    <li>Notification 3</li>
+                </ul>
+            </div>
+        </div>
+        <form class="logout-form">
+            <span>Welcome, Admin</span>
+            <button class="border-0 bg-transparent">
+                <i class="bi bi-box-arrow-right text-dark"></i>
             </button>
-        </li>
-        <li class="nav-item text-nowrap">
-            <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <svg class="bi">
-                    <use xlink:href="#list" />
-                </svg>
-            </button>
-        </li>
-    </ul>
-
-    <div id="navbarSearch" class="navbar-search w-100 collapse">
-        <input class="form-control w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
+        </form>
     </div>
 </header>

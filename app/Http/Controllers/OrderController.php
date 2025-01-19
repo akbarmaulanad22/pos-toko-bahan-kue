@@ -12,7 +12,7 @@ class OrderController extends Controller
     public function index()
     {
         return view('pages.admin.orders.index', [
-            'title' => 'Form Order',
+            'title' => 'Order List',
             'products' => Product::latest()->limit(5)->get()
         ]);
     }

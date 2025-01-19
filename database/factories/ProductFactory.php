@@ -15,8 +15,8 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'image' => $this->faker->name(),
-            'slug' => $this->faker->name(),
+            'image' => 'https://picsum.photos/seed/picsum/400/400',
+            'sku' => $this->faker->isbn10(),
             'category_id' => 1,
         ];
     }

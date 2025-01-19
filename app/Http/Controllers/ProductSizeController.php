@@ -18,7 +18,7 @@ class ProductSizeController extends Controller
     public function index(Product $product)
     {
         return view('pages.admin.sizes.index', [
-            'title' => 'Daftar Ukuran ' . $product->name,
+            'title' => 'Sizes Of ' . $product->name,
             'sizes' => $product->sizes,
             'product' => $product
         ]);
@@ -32,7 +32,7 @@ class ProductSizeController extends Controller
     public function create(Product $product)
     {
         return view('pages.admin.sizes.create', [
-            'title' => 'Tambah Ukuran ' . $product->name,
+            'title' => 'Create Size Of ' . $product->name,
             'product' => $product
         ]);
     }
@@ -71,7 +71,7 @@ class ProductSizeController extends Controller
     public function show(Product $product, ProductSize $size)
     {
         return view('pages.admin.sizes.show', [
-            'title' => 'Rincian Ukuran ' . $product->name,
+            'title' => 'Detail Size Of ' . $product->name,
             'sizes' => $size,
             'product' => $product
         ]);
@@ -86,7 +86,7 @@ class ProductSizeController extends Controller
     public function edit(Product $product, ProductSize $size)
     {
         return view('pages.admin.sizes.edit', [
-            'title' => 'Edit Ukuran ' . $product->name,
+            'title' => 'Edit Size Of ' . $product->name,
             'sizes' => $size,
             'product' => $product
         ]);

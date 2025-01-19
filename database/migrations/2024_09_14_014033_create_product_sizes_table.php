@@ -16,7 +16,8 @@ class CreateProductSizesTable extends Migration
         Schema::create('product_sizes', function (Blueprint $table) {
             $table->id();
              $table->string('size');
-            $table->string('price');
+             $table->integer('price');
+            $table->integer('modal');
             $table->string('stock');
             $table->string('slug');
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();

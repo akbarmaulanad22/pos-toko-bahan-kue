@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>{{ $title }}</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
@@ -178,77 +178,32 @@
             }
         }
     </style>
+
+    @stack('styles')
+
 </head>
 
 <body>
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <h2>Toko Azka</h2>
-        <hr>
-        <a href="#">Dashboard</a>
-        <div>
-            <a href="#" class="menu-toggle" data-target="submenu-products">Products</a>
-            <div class="submenu" id="submenu-products">
-                <a href="#">Add Product</a>
-                <a href="#">View Products</a>
-            </div>
-        </div>
-        <div>
-            <a href="#" class="menu-toggle" data-target="submenu-orders">Orders</a>
-            <div class="submenu" id="submenu-orders">
-                <a href="#">New Orders</a>
-                <a href="#">Order History</a>
-            </div>
-        </div>
-        <div>
-            <a href="#" class="menu-toggle" data-target="submenu-customers">Customers</a>
-            <div class="submenu" id="submenu-customers">
-                <a href="#">Add Customer</a>
-                <a href="#">View Customers</a>
-            </div>
-        </div>
-        <hr>
-        <div class="sidebar-settings">
-            <a href="#">Settings</a>
-        </div>
-    </div>
+    @include('partials.admin.sidebar')
 
     <!-- Main Content -->
-    <div class="main-content" id="mainContent">
+    <div class="main-content w-100" id="mainContent">
         <!-- Header -->
-        <header class="header">
-            <button class="burger-button" id="burgerButton" aria-label="Toggle Sidebar">&#9776;</button>
-            <div class="d-flex align-items-center gap-4">
-                <div class="notification">
-                    <i class="bi bi-bell"></i>
-                    <span class="badge">3</span>
-                    <div class="notification-dropdown">
-                        <ul>
-                            <li>Notification 1</li>
-                            <li>Notification 2</li>
-                            <li>Notification 3</li>
-                        </ul>
-                    </div>
-                </div>
-                <form class="logout-form">
-                    <span>Welcome, Admin</span>
-                    <button class="border-0 bg-transparent">
-                        <i class="bi bi-box-arrow-right text-dark"></i>
-                    </button>
-                </form>
-            </div>
-        </header>
+        @include('partials.admin.header')
 
         <!-- Content -->
         <div class="content">
-            <h2>Dashboard Overview</h2>
-            <p>This is the main content area where data and charts will be displayed.</p>
+
+            <h2>{{ $title }}</h2>
+            <br>
+
+            @yield('content')
+
         </div>
 
         <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2025 Your Company. All rights reserved.</p>
-        </footer>
+        @include('partials.admin.footer')
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -306,6 +261,7 @@
             notificationDropdown.style.display = 'none';
         });
     </script>
+    @stack('scripts')
 </body>
 
 </html>

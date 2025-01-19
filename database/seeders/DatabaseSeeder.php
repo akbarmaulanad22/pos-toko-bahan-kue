@@ -27,10 +27,10 @@ class DatabaseSeeder extends Seeder
 
         Category::create([
             'image' => 'p',
-            'name' => 'p',
-            'slug' => 'p',
+            'name' => 'Makanan',
+            'slug' => 'makanan',
         ]);
 
-        Product::factory(90)->create();
+        Product::factory(10)->create();
     }
 }

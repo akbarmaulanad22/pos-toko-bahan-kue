@@ -1,31 +1,70 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-lg-8">
-                <main class="form-product">
-                    <form>
-                        <div class="form-floating">
-                            <input type="text" class="form-control rounded-top"
-                                id="name" name="name" placeholder="Name" value="{{ $product->name }}" disabled readonly>
-                            <label for="name">Nama Barang</label>
-                        </div>
-                        <div class="">
-                            <select class="form-select rounded-0" disabled>
-                                <option selected>{{ $product->category->name }}</option>
-                            </select>
-                        </div>
-                        @if ($product->image)
-                            <img id="imagePreview" class="img-fluid rounded-bottom" src="{{ asset('storage/'.$product->image) }}">
-                        @endif
-                      
-                        <div class="d-flex justify-content-end align-items-center gap-2">
-                            <a href="{{ route('products.index') }}" class="col-6 col-sm-2 text-decoration-none my-3 text-end">Kembali</a>
-                        </div>
-                    </form>
-                </main>
+    <section>
+        <form class="row g-3">
+
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" aria-describedby="nameFeedback" readonly
+                    value="{{ $product->name }}">
+                @error('name')
+                    <div id="nameFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
-        </div>
-    </div>
+            <div class="col-md-6">
+                <label for="sku" class="form-label">SKU</label>
+                <input type="text" class="form-control" id="sku" aria-describedby="skuFeedback" readonly
+                    value="{{ $product->sku }}">
+                @error('sku')
+                    <div id="skuFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-md-6">
+
+                <label for="image" class="form-label">Image</label>
+                <img id="imagePreview" class="img-fluid mt-1 mb-2 d-block" src="{{ $product->image }}" loading="lazy">
+                @error('image')
+                    <div id="imageFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" aria-describedby="categoryFeedback" readonly>
+                    <option selected>
+                        {{ $product->category->name }}
+                    </option>
+                </select>
+                @error('category')
+                    <div id="categoryFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-12">
+                <a href="{{ route('products.index') }}" class="btn btn-light">Back</a>
+            </div>
+        </form>
+    </section>
+
+    <script>
+        const imgPreview = document.querySelector("#imagePreview");
+
+        function imageInputHandler(e) {
+            const [file] = e.files
+            if (file) {
+                imgPreview.src = URL.createObjectURL(file)
+                imgPreview.style.display = "block"
+            }
+        }
+    </script>
 @endsection

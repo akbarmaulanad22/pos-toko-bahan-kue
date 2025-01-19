@@ -19,7 +19,7 @@ class CreateOrderProductTable extends Migration
             $table->foreignId('order_id')->cascadeOnDelete();
             $table->string('sizes');
             $table->integer('price');
-            $table->integer('quantities');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

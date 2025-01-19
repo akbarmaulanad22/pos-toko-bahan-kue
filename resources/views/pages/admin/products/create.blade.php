@@ -1,63 +1,81 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container my-4">
-        <div class="row">
-            <div class="col-lg-8">
-                <main class="form-product">
-                    <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
+    <section>
+        <form class="row g-3" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
 
-                        @csrf
+            @csrf
 
-                        <div class="form-floating">
-                            <input type="text" class="form-control rounded-top @error('name') is-invalid @enderror"
-                                id="name" name="name" placeholder="Name" value="{{ old('name') }}">
-                            <label for="name">Nama Barang</label>
-                            @error('name')
-                                <div class="invalid-feedback mb-2">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="">
-                            <select class="form-select rounded-0 @error('category_id') is-invalid @enderror" name="category_id">
-                                <option selected>Kategori</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('category_id')
-                                <div class="invalid-feedback mb-2">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <img id="imagePreview" class="img-fluid" style="display: none">
-                        <div class="input-group mb-3">
-                            <input class="form-control rounded-0 rounded-bottom @error('image') is-invalid @enderror"
-                                id="floatingInput2" type="file" name="image" id="imageInput"
-                                onchange="imageInputHandler(this)">
-                            @error('image')
-                                <div class="invalid-feedback mb-2">
-                                    {{ $message }}
-                                </div>
-                            @else
-                                <div class="valid-feedback mb-2 d-block">
-                                    <span class="d-block">*opsional gambar produk</span>
-                                    <span class="d-block">*ukuran 400x400</span>
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="d-flex justify-content-end align-items-center gap-2">
-                            <a href="{{ route('products.index') }}"
-                                class="col-6 col-sm-2 text-decoration-none my-3 text-center">Kembali</a>
-                            <button class="col-6 col-sm-2 btn btn-primary my-3" type="submit">Simpan</button>
-                        </div>
-                    </form>
-                </main>
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" aria-describedby="nameFeedback"
+                    value="{{ old('name') }}" required>
+                @error('name')
+                    <div id="nameFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
-        </div>
-    </div>
+            <div class="col-md-6">
+                <label for="sku" class="form-label">SKU</label>
+                <input type="text" class="form-control" id="sku" aria-describedby="skuFeedback"
+                    value="{{ old('sku') }}" required>
+                @error('sku')
+                    <div id="skuFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-md-6">
+
+                <label for="image" class="form-label">Image</label>
+                <img id="imagePreview" class="img-fluid mb-2" style="display: none">
+                <input type="file" class="form-control" id="image" aria-describedby="imageFeedback" required
+                    onchange="imageInputHandler(this)">
+                <div id="imageFeedbackTerms" class="valid-feedback d-block">
+                    *Optional image, Only 400x400
+                </div>
+                @error('image')
+                    <div id="imageFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" aria-describedby="categoryFeedback" required>
+                    <option selected disabled></option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('category')
+                    <div id="categoryFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a href="{{ route('products.index') }}" class="btn btn-light">Back</a>
+            </div>
+        </form>
+    </section>
+
+    <script>
+        const imgPreview = document.querySelector("#imagePreview");
+
+        function imageInputHandler(e) {
+            const [file] = e.files
+            if (file) {
+                imgPreview.src = URL.createObjectURL(file)
+                imgPreview.style.display = "block"
+            }
+        }
+    </script>
 @endsection

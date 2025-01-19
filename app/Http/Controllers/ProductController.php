@@ -23,8 +23,8 @@ class ProductController extends Controller
     public function index()
     {
         return view('pages.admin.products.index', [
-            'title' => 'Daftar Produk',
-            'products' => Product::latest()->get(),
+            'title' => 'Products',
+            'products' => Product::with(['category'])->latest()->get(),
         ]);
     }
 
@@ -36,7 +36,7 @@ class ProductController extends Controller
     public function create()
     {
         return view('pages.admin.products.create', [
-            'title' => 'Tambah Produk',
+            'title' => 'Create Product',
             'categories' => Category::latest()->get()
         ]);
     }
@@ -47,17 +47,18 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\ProductRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
+        dd($request->all());
+        
         try {
-            $slug = SlugService::createSlug(Product::class, 'slug', $request->name);
             $path = $request->file('image') ? $request->file('image')->store('products') : '';
 
             Product::create([
                 'category_id' => $request->category_id,
                 'name' => $request->name,
+                'sku' => $request->sku,
                 'image' => $path,
-                'slug' => $slug,
             ]);
 
             return redirect()->route('products.index')->with('SUCCESS', 'Produk berhasil ditambahkan');
@@ -75,7 +76,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return view('pages.admin.products.show', [
-            'title' => 'Rincian Produk',
+            'title' => 'Detail Product',
             'product' => $product,
         ]);
     }
@@ -89,7 +90,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return view('pages.admin.products.edit', [
-            'title' => 'Edit Produk',
+            'title' => 'Edit Product',
             'product' => $product,
             'categories' => Category::latest()->get()
         ]);
@@ -106,7 +107,6 @@ class ProductController extends Controller
     {
         try {
             $path = $product->image;
-            $slug = SlugService::createSlug(Product::class, 'slug', $request->name);
 
             if ($request->file('image') && $path) {
                 Storage::delete($path);
@@ -117,7 +117,7 @@ class ProductController extends Controller
 
             $product->update([
                 'name' => $request->name,
-                'slug' => $slug,
+                'sku' => $request->sku,
                 'image' => $path,
                 'category_id' => $request->category_id
             ]);

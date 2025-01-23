@@ -36,9 +36,8 @@
         <li class="nav-item">
             <a href="#" class="menu-toggle" data-target="submenu-log">Log</a>
             <div class="submenu" id="submenu-log">
-                <a href="#" class="text-nowrap">Products</a>
-                <a href="#" class="text-nowrap">Categories</a>
-                <a href="#" class="text-nowrap">Financial Trackers</a>
+                <a href="{{ route('log.products') }}" class="text-nowrap">Products</a>
+                <a href="{{ route('log.finacial-trackers') }}" class="text-nowrap">Financial Trackers</a>
                 <a href="#" class="text-nowrap">Stock Flow</a>
                 <a href="#" class="text-nowrap">Emplooyees</a>
             </div>

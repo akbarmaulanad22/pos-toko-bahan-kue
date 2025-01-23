@@ -16,7 +16,7 @@
                 </ul>
             </div>
         </div>
-        <!-- Data LOg Product -->
+        <!-- Data Log Financial Trackers -->
         <div class="table-wrapper overflow-x-scroll">
             <table class="table table-striped table-hover">
                 <thead>
@@ -28,16 +28,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($logProducts as $logProduct)
+                    @forelse ($logFinancialTrackers as $logFinancialTracker)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $logProduct->created_by }}</td>
-                            <td>{{ $logProduct->action }}</td>
-                            <td>{{ $logProduct->input }}</td>
+                            <td>{{ $logFinancialTracker->created_by }}</td>
+                            <td>{{ $logFinancialTracker->action }}</td>
+                            <td>{{ $logFinancialTracker->input }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td scope="row" colspan="5" class="text-center">No Log Products Found</td>
+                            <td scope="row" colspan="5" class="text-center">No Log Financial Trackers Found</td>
                         </tr>
                     @endforelse
                 </tbody>

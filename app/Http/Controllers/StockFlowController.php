@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StockFlowRequest;
 use App\Models\Product;
 use App\Models\StockFlow;
+use App\Services\LogStockFlowService;
+use Illuminate\Http\Request;
 
 class StockFlowController extends Controller
 {
+    protected LogStockFlowService $logStockFlowService;
+    
+    public function __construct(LogStockFlowService $logStockFlowService) {
+        $this->logStockFlowService = $logStockFlowService;
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +51,9 @@ class StockFlowController extends Controller
     public function store(StockFlowRequest $request)
     {
         StockFlow::create($request->all());
+
+        $this->logStockFlowService->insert(new Request($request->all()), 'insert');
+        
         return redirect()->route('stockflow.index');
     }
 
@@ -85,6 +96,9 @@ class StockFlowController extends Controller
     public function update(StockFlowRequest $request, StockFlow $stockflow)
     {
         $stockflow->update($request->all());
+
+        $this->logStockFlowService->insert(new Request($request->all()), 'update');
+        
         return redirect()->route('stockflow.index');
     }
 
@@ -96,8 +110,13 @@ class StockFlowController extends Controller
      */
     public function destroy(StockFlow $stockflow)
     {
+        // set product name for logging
+        $stockflow->product_name = $stockflow->product->name;
         
         $stockflow->delete();
+
+        $this->logStockFlowService->insert(new Request($stockflow->toArray()), 'insert');
+        
         return redirect()->route('stockflow.index');
 
     }

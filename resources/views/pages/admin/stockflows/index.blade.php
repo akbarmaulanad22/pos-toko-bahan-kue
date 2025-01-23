@@ -67,7 +67,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td scope="row" colspan="5" class="text-center">No Data Found</td>
+                            <td scope="row" colspan="6" class="text-center">No Data Found</td>
                         </tr>
                     @endforelse
                 </tbody>

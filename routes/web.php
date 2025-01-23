@@ -65,6 +65,9 @@ Route::prefix('areaorangpadang')
         Route::resource('/staffs', StaffController::class);
         
         Route::get('/log/products', [LogController::class, 'products'])->name('log.products');
+        Route::get('/log/finacial-trackers', [LogController::class, 'financialTrackers'])->name('log.finacial-trackers');
+        Route::get('/log/stockflows', [LogController::class, 'stockflows'])->name('log.stockflows');
+        Route::get('/log/staffs', [LogController::class, 'staffs'])->name('log.staffs');
 
         Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
         Route::post('/pos', [PosController::class, 'store'])->name('pos.store');

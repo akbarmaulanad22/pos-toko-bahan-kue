@@ -6,9 +6,18 @@ use App\Http\Requests\StaffCreateRequest;
 use App\Http\Requests\StaffUpdateRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\LogStaffService;
+use Illuminate\Http\Request;
 
 class StaffController extends Controller
 {
+    protected LogStaffService $logStaffService;
+
+    public function __construct(LogStaffService $logStaffService)
+    {
+        $this->logStaffService = $logStaffService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +27,7 @@ class StaffController extends Controller
     {
         return view('pages.admin.staff.index', [
             'title' => 'Staff',
-            'staffs' => User::all()
+            'staffs' => User::all(),
         ]);
     }
 
@@ -31,7 +40,7 @@ class StaffController extends Controller
     {
         return view('pages.admin.staff.create', [
             'title' => 'Staff',
-            'roles' => Role::all()
+            'roles' => Role::all(),
         ]);
     }
 
@@ -44,6 +53,8 @@ class StaffController extends Controller
     public function store(StaffCreateRequest $request)
     {
         User::create($request->safe()->except(['password_confirmation']));
+
+        $this->logStaffService->insert(new Request($request->all()), 'insert');
 
         return redirect()->route('staffs.index');
     }
@@ -58,7 +69,7 @@ class StaffController extends Controller
     {
         return view('pages.admin.staff.show', [
             'title' => 'Staff',
-            'staff' => $staff
+            'staff' => $staff,
         ]);
     }
 
@@ -73,7 +84,7 @@ class StaffController extends Controller
         return view('pages.admin.staff.edit', [
             'title' => 'Staff',
             'staff' => $staff,
-            'roles' => Role::all()
+            'roles' => Role::all(),
         ]);
     }
 
@@ -88,6 +99,8 @@ class StaffController extends Controller
     {
         $staff->update($request->safe()->except(['password_confirmation', 'password']));
 
+        $this->logStaffService->insert(new Request($request->all()), 'update');
+
         return redirect()->route('staffs.index');
     }
 
@@ -99,8 +112,13 @@ class StaffController extends Controller
      */
     public function destroy(User $staff)
     {
+        // set role name for logging
+        $staff->role_name = $staff->role->name;
+
         $staff->delete();
 
-        return redirect()->route('staff.index');
+        $this->logStaffService->insert(new Request($staff->toArray()), 'delete');
+
+        return redirect()->route('staffs.index');
     }
 }

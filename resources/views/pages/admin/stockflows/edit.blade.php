@@ -10,6 +10,7 @@
 
             <div class="col-md-6">
                 <label for="product_id" class="form-label">Product</label>
+                <input type="hidden" name="product_name" id="product_name">
                 <select class="form-select" id="product_id" name="product_id" aria-describedby="productFeedback" required>
                     <option selected disabled></option>
                     @foreach ($products as $product)
@@ -75,3 +76,14 @@
         </form>
     </section>
 @endsection
+@push('scripts')
+    <script>
+        // set old value
+        document.getElementById("product_name").value = document.getElementById("product_id").selectedOptions[0].text;
+
+        // change value
+        function handleChangeProduct(e) {
+            document.getElementById("product_name").value = (e.options[e.selectedIndex].text);
+        }
+    </script>
+@endpush

@@ -8,7 +8,9 @@
 
             <div class="col-md-6">
                 <label for="product_id" class="form-label">Product</label>
-                <select class="form-select" id="product_id" name="product_id" aria-describedby="productFeedback" required>
+                <input type="hidden" name="product_name" id="product_name">
+                <select class="form-select" id="product_id" name="product_id" aria-describedby="productFeedback" required
+                    onchange="handleChangeProduct(this)">
                     <option selected disabled></option>
                     @foreach ($products as $product)
                         <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
@@ -72,3 +74,10 @@
         </form>
     </section>
 @endsection
+@push('scripts')
+    <script>
+        function handleChangeProduct(e) {
+            document.getElementById("product_name").value = (e.options[e.selectedIndex].text);
+        }
+    </script>
+@endpush

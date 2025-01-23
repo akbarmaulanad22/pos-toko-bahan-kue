@@ -31,7 +31,9 @@
 
             <div class="col-md-6">
                 <label for="role_id" class="form-label">Role</label>
-                <select class="form-select" id="role_id" name="role_id" aria-describedby="roleFeedback" required>
+                <input type="hidden" name="role_name" id="role_name">
+                <select class="form-select" id="role_id" name="role_id" aria-describedby="roleFeedback" required
+                    onchange="handleChangeProduct(this)">
                     <option selected disabled></option>
                     @foreach ($roles as $role)
                         <option value="{{ $role->id }}"
@@ -55,3 +57,14 @@
         </form>
     </section>
 @endsection
+@push('scripts')
+    <script>
+        // set old value
+        document.getElementById("role_name").value = document.getElementById("role_id").selectedOptions[0].text;
+
+        // change value
+        function handleChangeProduct(e) {
+            document.getElementById("role_name").value = (e.options[e.selectedIndex].text);
+        }
+    </script>
+@endpush

@@ -1,37 +1,36 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-lg-8">
-                <main class="form-product">
-                    <form>
-                        <div class="form-floating">
-                            <input type="text" class="form-control rounded-top"
-                                id="size" name="size" placeholder="size" value="{{ $sizes->size }}" disabled readonly>
-                            <label for="size">Ukuran Barang</label>
-                            
-                        </div>
-                        <div class="form-floating">
-                            <input type="text"
-                                class="form-control"
-                                id="price" name="price" placeholder="price" value="{{ $sizes->price }}" disabled readonly>
-                            <label for="price">Stock Eceran</label>
-                            
-                        </div>
-                        <div class="form-floating">
-                            <input type="text"
-                                class="form-control rounded-bottom"
-                                id="stock" name="stock" placeholder="stock" value="{{ $sizes->stock }}" disabled readonly>
-                            <label for="stock">Stock Grosir</label>
-                        </div>
-                      
-                        <div class="d-flex justify-content-end align-items-center gap-2">
-                            <a href="{{ route('sizes.index', ['product' => $product]) }}" class="col-6 col-sm-2 text-decoration-none my-3 text-end">Kembali</a>
-                        </div>
-                    </form>
-                </main>
+    <section>
+        <form class="row g-3">
+
+            <div class="col-md-6">
+                <label for="size" class="form-label">Size</label>
+                <input type="text" class="form-control" id="size" name="size" aria-describedby="sizeFeedback"
+                    value="{{ $size->size }}" readonly>
             </div>
-        </div>
-    </div>
+            <div class="col-md-6">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" class="form-control" id="price" name="price" aria-describedby="priceFeedback"
+                    value="{{ $size->price }}" readonly>
+            </div>
+
+            <div class="col-md-6">
+
+                <label for="modal" class="form-label">Modal</label>
+                <input type="text" class="form-control" id="modal" name="modal" aria-describedby="modalFeedback"
+                    value="{{ $size->modal }}" readonly>
+            </div>
+
+            <div class="col-md-6">
+                <label for="stock" class="form-label">Stock</label>
+                <input type="text" class="form-control" id="stock" name="stock" aria-describedby="stockFeedback"
+                    value="{{ $size->stock }}" readonly>
+            </div>
+
+            <div class="col-12">
+                <a href="{{ route('sizes.index', ['product' => $product]) }}" class="btn btn-light">Back</a>
+            </div>
+        </form>
+    </section>
 @endsection

@@ -24,8 +24,9 @@ class ProductSizeRequest extends FormRequest
     public function rules()
     {
         return [
-            'size' => 'required',
+            'size' => 'required|unique:product_sizes,size,' . optional($this->size)->id . ',id',
             'price' => 'required|numeric',
+            'modal' => 'required|numeric',
             'stock' => 'required|numeric',
         ];
     }

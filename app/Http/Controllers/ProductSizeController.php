@@ -49,9 +49,10 @@ class ProductSizeController extends Controller
             $slug = SlugService::createSlug(ProductSize::class, 'slug', $request->size);
 
             ProductSize::create([
-                'stock' => $request->stock,
                 'size' => $request->size,
                 'price' => $request->price,
+                'modal' => $request->modal,
+                'stock' => $request->stock,
                 'product_id' => $product->id,
                 'slug' => $slug,
             ]);
@@ -72,7 +73,7 @@ class ProductSizeController extends Controller
     {
         return view('pages.admin.sizes.show', [
             'title' => 'Detail Size Of ' . $product->name,
-            'sizes' => $size,
+            'size' => $size,
             'product' => $product
         ]);
     }
@@ -87,7 +88,7 @@ class ProductSizeController extends Controller
     {
         return view('pages.admin.sizes.edit', [
             'title' => 'Edit Size Of ' . $product->name,
-            'sizes' => $size,
+            'size' => $size,
             'product' => $product
         ]);
     }
@@ -105,9 +106,10 @@ class ProductSizeController extends Controller
             $slug = SlugService::createSlug(ProductSize::class, 'slug', $request->size);
 
             $size->update([
-                'stock' => $request->stock,
                 'size' => $request->size,
                 'price' => $request->price,
+                'modal' => $request->modal,
+                'stock' => $request->stock,
                 'product_id' => $product->id,
                 'slug' => $slug,
             ]);

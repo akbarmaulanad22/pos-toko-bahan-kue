@@ -11,7 +11,9 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
-    public function products() {
-        return $this->belongsToMany(Product::class)->withPivot(['size', 'price', 'quantity']);
+    // Relasi One to Many
+    public function products()
+    {
+        return $this->hasMany(OrderProduct::class);
     }
 }

@@ -21,6 +21,7 @@ class ProductSize extends Model
     {
         return 'slug';
     }
+    
 
     /**
      * Return the sluggable configuration array for this model.

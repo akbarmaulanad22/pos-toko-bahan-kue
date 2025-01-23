@@ -6,48 +6,26 @@
 
             <div class="col-md-6">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" aria-describedby="nameFeedback" readonly
+                <input type="text" class="form-control" id="name" aria-label="name input" readonly
                     value="{{ $product->name }}">
-                @error('name')
-                    <div id="nameFeedback" class="invalid-feedback d-block">
-                        {{ $message }}
-                    </div>
-                @enderror
             </div>
             <div class="col-md-6">
                 <label for="sku" class="form-label">SKU</label>
-                <input type="text" class="form-control" id="sku" aria-describedby="skuFeedback" readonly
+                <input type="text" class="form-control" id="sku" aria-label="sku input" readonly
                     value="{{ $product->sku }}">
-                @error('sku')
-                    <div id="skuFeedback" class="invalid-feedback d-block">
-                        {{ $message }}
-                    </div>
-                @enderror
             </div>
 
             <div class="col-md-6">
 
                 <label for="image" class="form-label">Image</label>
-                <img id="imagePreview" class="img-fluid mt-1 mb-2 d-block" src="{{ $product->image }}" loading="lazy">
-                @error('image')
-                    <div id="imageFeedback" class="invalid-feedback d-block">
-                        {{ $message }}
-                    </div>
-                @enderror
+                <img id="imagePreview" class="img-fluid mt-1 mb-2 d-block" src="{{ asset('storage/' . $product->image) }}"
+                    aria-label="image input" loading="lazy">
             </div>
 
             <div class="col-md-6">
                 <label for="category" class="form-label">Category</label>
-                <select class="form-select" id="category" aria-describedby="categoryFeedback" readonly>
-                    <option selected>
-                        {{ $product->category->name }}
-                    </option>
-                </select>
-                @error('category')
-                    <div id="categoryFeedback" class="invalid-feedback d-block">
-                        {{ $message }}
-                    </div>
-                @enderror
+                <input type="text" class="form-control" id="sku" aria-label="sku input" readonly
+                    value="{{ $product->category->name }}">
             </div>
 
             <div class="col-12">
@@ -55,16 +33,4 @@
             </div>
         </form>
     </section>
-
-    <script>
-        const imgPreview = document.querySelector("#imagePreview");
-
-        function imageInputHandler(e) {
-            const [file] = e.files
-            if (file) {
-                imgPreview.src = URL.createObjectURL(file)
-                imgPreview.style.display = "block"
-            }
-        }
-    </script>
 @endsection

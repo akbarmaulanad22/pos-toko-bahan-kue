@@ -37,6 +37,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:products,name,' . optional($this->product)->id . ',id',
+            'sku' => 'required|unique:products,sku,' . optional($this->product)->id . ',id',
             'image' => 'dimensions:width=400,height=400',
             'category_id' => 'required',
         ];

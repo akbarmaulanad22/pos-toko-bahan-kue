@@ -18,7 +18,7 @@ class CreateProductSizesTable extends Migration
              $table->string('size');
              $table->integer('price');
             $table->integer('modal');
-            $table->string('stock');
+            $table->integer('stock');
             $table->string('slug');
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

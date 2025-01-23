@@ -18,7 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('pages.admin.categories.index', [
-            'title' => 'Daftar Kategori',
+            'title' => 'Categories',
             'categories' => Category::latest()->get(),
         ]);
     }
@@ -31,7 +31,7 @@ class CategoryController extends Controller
     public function create()
     {
         return view('pages.admin.categories.create', [
-            'title' => 'Tambah Kategori',
+            'title' => 'Create Category',
         ]);
     }
 
@@ -68,7 +68,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return view('pages.admin.categories.show', [
-            'title' => 'Rincian Kategori',
+            'title' => 'Detail Category',
             'category' => $category,
         ]);
     }
@@ -82,7 +82,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         return view('pages.admin.categories.edit', [
-            'title' => 'Edit Kategori',
+            'title' => 'Edit Category',
             'category' => $category,
         ]);
     }

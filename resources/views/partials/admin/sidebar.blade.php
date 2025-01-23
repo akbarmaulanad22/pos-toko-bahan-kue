@@ -1,7 +1,7 @@
 <nav class="sidebar" id="sidebar">
     <h2>Toko Azka</h2>
     <hr>
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto overflow-y-auto">
         <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
         </li>
@@ -9,41 +9,43 @@
             <a class="nav-link" href="{{ route('products.index') }}">Products</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('categories.index') }}">Categories</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('products.index') }}">POS</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('products.index') }}">Financial Report</a>
+            <a class="nav-link" href="{{ route('orders.index') }}">Orders</a>
         </li>
         <li class="nav-item">
-            <a href="#" class="menu-toggle" data-target="submenu-product-reports">Product Report</a>
-            <div class="submenu" id="submenu-product-reports">
-                <a href="#" class="text-nowrap">Incoming</a>
-                <a href="#" class="text-nowrap">Outgoing</a>
+            <a href="#" class="menu-toggle" data-target="submenu-financials">Financials</a>
+            <div class="submenu" id="submenu-financials">
+                <a href="{{ route('financial-trackers.index') }}" class="text-nowrap">Trackers</a>
+                <a href="#" class="text-nowrap">Reports</a>
             </div>
         </li>
         <li class="nav-item">
-            <a href="#" class="menu-toggle" data-target="submenu-employees">Employees Management</a>
-            <div class="submenu" id="submenu-employees">
-                <a href="#" class="text-nowrap">Employee List</a>
-                <a href="#" class="text-nowrap">Role List</a>
+            <a class="nav-link" href="{{ route('stockflow.index') }}">StockFlow</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('staffs.index') }}">Staff</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('roles.index') }}">Roles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="menu-toggle" data-target="submenu-log">Log</a>
+            <div class="submenu" id="submenu-log">
+                <a href="#" class="text-nowrap">Products</a>
+                <a href="#" class="text-nowrap">Categories</a>
+                <a href="#" class="text-nowrap">Financial Trackers</a>
+                <a href="#" class="text-nowrap">Stock Flow</a>
+                <a href="#" class="text-nowrap">Emplooyees</a>
             </div>
         </li>
     </ul>
 
-    {{-- <div>
-        <a href="#" class="menu-toggle" data-target="submenu-products">Products</a>
-        <div class="submenu" id="submenu-products">
-            <a href="#">Add Product</a>
-            <a href="#">View Products</a>
-        </div>
-    </div>
-    <div>
-        <a href="#" class="menu-toggle" data-target="submenu-orders">Orders</a>
-        <div class="submenu" id="submenu-orders">
-            <a href="#">New Orders</a>
-            <a href="#">Order History</a>
-        </div>
-    </div> --}}
+
     <hr>
     <ul class="navbar-nav mr-auto sidebar-settings">
         <li class="nav-item">

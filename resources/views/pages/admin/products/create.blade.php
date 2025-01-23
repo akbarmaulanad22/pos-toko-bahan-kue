@@ -8,7 +8,7 @@
 
             <div class="col-md-6">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" aria-describedby="nameFeedback"
+                <input type="text" class="form-control" id="name" name="name" aria-describedby="nameFeedback"
                     value="{{ old('name') }}" required>
                 @error('name')
                     <div id="nameFeedback" class="invalid-feedback d-block">
@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-6">
                 <label for="sku" class="form-label">SKU</label>
-                <input type="text" class="form-control" id="sku" aria-describedby="skuFeedback"
+                <input type="text" class="form-control" id="sku" name="sku" aria-describedby="skuFeedback"
                     value="{{ old('sku') }}" required>
                 @error('sku')
                     <div id="skuFeedback" class="invalid-feedback d-block">
@@ -31,7 +31,7 @@
 
                 <label for="image" class="form-label">Image</label>
                 <img id="imagePreview" class="img-fluid mb-2" style="display: none">
-                <input type="file" class="form-control" id="image" aria-describedby="imageFeedback" required
+                <input type="file" class="form-control" id="image" name="image" aria-describedby="imageFeedback"
                     onchange="imageInputHandler(this)">
                 <div id="imageFeedbackTerms" class="valid-feedback d-block">
                     *Optional image, Only 400x400
@@ -44,8 +44,9 @@
             </div>
 
             <div class="col-md-6">
-                <label for="category" class="form-label">Category</label>
-                <select class="form-select" id="category" aria-describedby="categoryFeedback" required>
+                <label for="category_id" class="form-label">Category</label>
+                <select class="form-select" id="category_id" name="category_id" aria-describedby="categoryFeedback"
+                    required>
                     <option selected disabled></option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -53,7 +54,7 @@
                         </option>
                     @endforeach
                 </select>
-                @error('category')
+                @error('category_id')
                     <div id="categoryFeedback" class="invalid-feedback d-block">
                         {{ $message }}
                     </div>

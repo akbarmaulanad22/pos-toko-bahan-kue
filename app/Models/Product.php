@@ -48,4 +48,9 @@ class Product extends Model
     public function orders() {
         return $this->belongsToMany(Order::class)->withPivot(['size', 'price', 'quantity']);
     }
+
+    public function stockflows()
+    {
+        return $this->hasMany(StockFlow::class);
+    }
 }

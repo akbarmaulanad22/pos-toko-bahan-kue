@@ -1,30 +1,26 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-lg-8">
-                <main class="form-product">
-                    <form>
-                        <div class="form-floating">
-                            <input type="text" class="form-control rounded-top" id="name" name="name"
-                                placeholder="Name" value="{{ $category->name }}" disabled readonly>
-                            <label for="name">Nama</label>
+    <section>
+        <form class="row g-3">
 
-                        </div>
+            @csrf
 
-                        @if ($category->image)
-                            <img id="imagePreview" class="img-fluid rounded-bottom"
-                                src="{{ asset('storage/' . $category->image) }}">
-                        @endif
-
-                        <div class="d-flex justify-content-end align-items-center gap-2">
-                            <a href="{{ route('categories.index') }}"
-                                class="col-6 col-sm-2 text-decoration-none my-3 text-end">Kembali</a>
-                        </div>
-                    </form>
-                </main>
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" aria-describedby="nameFeedback"
+                    value="{{ $category->name }}" readonly>
             </div>
-        </div>
-    </div>
+            <div class="col-md-6">
+
+                <label for="image" class="form-label">Image</label>
+                <img id="imagePreview" class="img-fluid mb-2" style="display: block"
+                    src="{{ asset('storage/' . $category->image) }}">
+            </div>
+
+            <div class="col-12">
+                <a href="{{ route('categories.index') }}" class="btn btn-light">Back</a>
+            </div>
+        </form>
+    </section>
 @endsection

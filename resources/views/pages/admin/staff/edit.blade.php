@@ -49,6 +49,30 @@
                 @enderror
             </div>
 
+            <div class="col-md-6">
+                <label for="password" class="form-label">Password</label>
+
+                <input type="password" class="form-control" id="password" name="password"
+                    aria-describedby="passwordFeedback" required>
+                @error('password')
+                    <div id="passwordFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="password_confirmation" class="form-label">Password Confirmation</label>
+
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                    aria-describedby="password_confirmationFeedback" required>
+                @error('password_confirmation')
+                    <div id="password_confirmationFeedback" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
             <div class="col-12">
                 <button class="btn btn-primary" type="submit">Submit</button>
                 <a href="{{ route('staffs.index') }}" class="btn btn-light">Back</a>

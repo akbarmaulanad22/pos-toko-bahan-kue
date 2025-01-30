@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Services\LogStaffService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
 {
@@ -52,9 +53,16 @@ class StaffController extends Controller
      */
     public function store(StaffCreateRequest $request)
     {
-        User::create($request->safe()->except(['password_confirmation']));
+        // Retrieve a portion of the validated input data
+        $validatedUser = $request->safe()->except(['password_confirmation']);
 
-        $this->logStaffService->insert(new Request($request->all()), 'insert');
+        // hashing user password
+        $validatedUser['password'] = Hash::make($validatedUser['password']);
+
+        // create valid user
+        User::create($validatedUser);
+        
+        $this->logStaffService->insert(new Request($validatedUser), 'insert');
 
         return redirect()->route('staffs.index');
     }

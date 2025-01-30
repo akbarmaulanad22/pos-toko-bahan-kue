@@ -22,6 +22,21 @@
                     value="{{ optional($staff->role)->name }}" readonly>
             </div>
 
+            <div class="col-md-6">
+                <label for="password" class="form-label">Password</label>
+
+                <input type="password" class="form-control" id="password" name="password"
+                    aria-describedby="passwordFeedback" readonly>
+
+            </div>
+
+            <div class="col-md-6">
+                <label for="password_confirmation" class="form-label">Password Confirmation</label>
+
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                    aria-describedby="password_confirmationFeedback" readonly>
+
+            </div>
 
             <div class="col-12">
                 <a href="{{ route('staffs.index') }}" class="btn btn-light">Back</a>

@@ -51,7 +51,7 @@
                 <label for="password" class="form-label">Password</label>
 
                 <input type="password" class="form-control" id="password" name="password"
-                    aria-describedby="passwordFeedback" value="{{ old('password') }}" required>
+                    aria-describedby="passwordFeedback" required>
                 @error('password')
                     <div id="passwordFeedback" class="invalid-feedback d-block">
                         {{ $message }}
@@ -63,7 +63,7 @@
                 <label for="password_confirmation" class="form-label">Password Confirmation</label>
 
                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                    aria-describedby="password_confirmationFeedback" value="{{ old('password_confirmation') }}" required>
+                    aria-describedby="password_confirmationFeedback" required>
                 @error('password_confirmation')
                     <div id="password_confirmationFeedback" class="invalid-feedback d-block">
                         {{ $message }}

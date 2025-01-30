@@ -6,16 +6,19 @@ use App\Http\Requests\StockFlowRequest;
 use App\Models\Product;
 use App\Models\StockFlow;
 use App\Services\LogStockFlowService;
+use App\Services\ProductSizeService;
+use Exception;
 use Illuminate\Http\Request;
 
 class StockFlowController extends Controller
 {
     protected LogStockFlowService $logStockFlowService;
-    
-    public function __construct(LogStockFlowService $logStockFlowService) {
+
+    public function __construct(LogStockFlowService $logStockFlowService)
+    {
         $this->logStockFlowService = $logStockFlowService;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +26,7 @@ class StockFlowController extends Controller
      */
     public function index()
     {
-        return view('pages.admin.stockflows.index',  [
+        return view('pages.admin.stockflows.index', [
             'title' => 'StockFlows',
             'stockflows' => StockFlow::all(),
         ]);
@@ -38,7 +41,7 @@ class StockFlowController extends Controller
     {
         return view('pages.admin.stockflows.create', [
             'title' => 'Create StockFlow',
-            'products' => Product::all()
+            'products' => Product::all(),
         ]);
     }
 
@@ -50,11 +53,19 @@ class StockFlowController extends Controller
      */
     public function store(StockFlowRequest $request)
     {
-        StockFlow::create($request->all());
+        try {
+            StockFlow::create($request->all());
 
-        $this->logStockFlowService->insert(new Request($request->all()), 'insert');
-        
-        return redirect()->route('stockflow.index');
+            $productSizeService = new ProductSizeService();
+            $productSizeService->updateStock(new Request($request->all()));
+
+            $this->logStockFlowService->insert(new Request($request->all()), 'insert');
+
+            return redirect()->route('stockflow.index');
+        } catch (Exception $ex) {
+            dd($ex);
+            return redirect()->route('stockflow.index');
+        }
     }
 
     /**
@@ -67,7 +78,7 @@ class StockFlowController extends Controller
     {
         return view('pages.admin.stockflows.show', [
             'title' => 'Detail StockFlow',
-            'stockflow' => $stockflow
+            'stockflow' => $stockflow,
         ]);
     }
 
@@ -82,7 +93,7 @@ class StockFlowController extends Controller
         return view('pages.admin.stockflows.edit', [
             'title' => 'Edit StockFlow',
             'stockflow' => $stockflow,
-            'products' => Product::all()
+            'products' => Product::all(),
         ]);
     }
 
@@ -95,11 +106,19 @@ class StockFlowController extends Controller
      */
     public function update(StockFlowRequest $request, StockFlow $stockflow)
     {
-        $stockflow->update($request->all());
+        try {
+            $productSizeService = new ProductSizeService();
+            $productSizeService->updateStock(new Request($request->all()), $stockflow);
 
-        $this->logStockFlowService->insert(new Request($request->all()), 'update');
-        
-        return redirect()->route('stockflow.index');
+            $stockflow->update($request->all());
+
+            $this->logStockFlowService->insert(new Request($request->all()), 'update');
+
+            return redirect()->route('stockflow.index');
+        } catch (Exception $ex) {
+            dd($ex);
+            return redirect()->route('stockflow.index');
+        }
     }
 
     /**
@@ -110,14 +129,27 @@ class StockFlowController extends Controller
      */
     public function destroy(StockFlow $stockflow)
     {
-        // set product name for logging
-        $stockflow->product_name = $stockflow->product->name;
-        
-        $stockflow->delete();
+        try {
+            $productSizeService = new ProductSizeService();
+            $productSizeService->cancelUpdateStock($stockflow);
 
-        $this->logStockFlowService->insert(new Request($stockflow->toArray()), 'insert');
-        
-        return redirect()->route('stockflow.index');
+            // set product name for logging
+            $stockflow->product_name = $stockflow->product->name;
 
+            $stockflow->delete();
+
+            $this->logStockFlowService->insert(new Request($stockflow->toArray()), 'insert');
+
+            return redirect()->route('stockflow.index');
+        } catch (Exception $ex) {
+            dd($ex);
+            return redirect()->route('stockflow.index');
+        }
+    }
+
+    public function getSizesProduct(Request $request)
+    {
+        $producstSizeService = new ProductSizeService();
+        return response()->json($producstSizeService->getSizes($request->id));
     }
 }

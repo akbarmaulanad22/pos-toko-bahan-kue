@@ -8,8 +8,10 @@ use App\Models\Category;
 use App\Models\LogProduct;
 use App\Models\Product;
 use App\Services\LogProductService;
+use App\Services\ProductService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -56,7 +58,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ProductRequest $request)
-    {        
+    {
         try {
             if ($request->file('image')) {
                 $request['file'] = $request->file('image')->store('products');
@@ -119,12 +121,11 @@ class ProductController extends Controller
             $request['file'] = $product->image;
 
             if ($request->file('image')) {
-                
                 // delete old img
                 Storage::delete($product->image);
 
                 // insert new img
-                $request['file'] = $request->file('image')->store('products') ;
+                $request['file'] = $request->file('image')->store('products');
             }
 
             $product->update([
@@ -151,21 +152,19 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
-           
             $product->delete();
             Storage::delete($product->image);
 
-             $request = [
+            $request = [
                 'name' => $product->name,
                 'sku' => $product->sku,
                 'category_id' => $product->category_id,
-            ]; 
+            ];
 
-            if($product->image)
-            {
+            if ($product->image) {
                 $request['file'] = $product->image;
             }
-            
+
             $this->logProductService->insert(new Request($request), 'delete');
 
             return redirect()->route('products.index')->with('SUCCESS', 'Produk berhasil dihapus');
@@ -180,8 +179,29 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function ajax()
+    public function ajax(Request $request)
     {
-        return ProductOrderResource::collection(Product::search()->latest()->paginate(5));
+        return response()->json([
+            'data' => DB::table('products')
+                ->join('product_sizes', 'products.id', '=', 'product_sizes.product_id')
+                ->select('products.id as product_id', 'products.name as product_name', 'product_sizes.id as product_size_id', 'product_sizes.size as product_size', 'product_sizes.price as product_price', 'product_sizes.stock as product_stock')
+                ->where('products.name', 'like', '%' . $request->search . '%')
+                ->skip(($request->page - 1) * 5)
+                ->take(5)
+                ->get(),
+            'current_page' => $request->page,
+            'total_page' => ceil(
+                DB::table('products')
+                    ->where('products.name', 'like', '%' . $request->search . '%')
+                    ->join('product_sizes', 'products.id', '=', 'product_sizes.product_id')
+                    ->get()
+                    ->count() / 5,
+            ),
+            'total_data' => DB::table('products')
+                ->where('products.name', 'like', '%' . $request->search . '%')
+                ->join('product_sizes', 'products.id', '=', 'product_sizes.product_id')
+                ->get()
+                ->count(),
+        ]);
     }
 }

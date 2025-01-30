@@ -12,9 +12,9 @@ class LogStockFlowService
     {
         try {
             LogStockFlow::create([
-                'input' => implode(', ', $request->only(['product_name', 'type', 'quantity', 'description'])),
+                'input' => implode(', ', $request->only(['product_name', 'size_name', 'type', 'quantity', 'description'])),
                 'action' => $action,
-                'created_by' => auth()->user()->name
+                'created_by' => auth()->user()->name,
             ]);
         } catch (Exception $th) {
             throw $th;

@@ -15,11 +15,12 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('custumer_name')->default('-');
-            $table->integer('amount');
-            $table->integer('quantities');
-            $table->string('payment_method')->nullable();
-            $table->timestamps();
+            $table->string('entity_name');
+            $table->enum('entity_type', ['Customer', 'Supplier']);
+            $table->enum('type', ['In', 'Out']);
+            $table->enum('status', ['Completed', 'Pending', 'Cancelled']);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('cancelled_at')->nullable();
         });
     }
 

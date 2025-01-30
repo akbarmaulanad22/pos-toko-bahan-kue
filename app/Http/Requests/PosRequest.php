@@ -28,6 +28,7 @@ class PosRequest extends FormRequest
             'selectedProducts.*.id' => 'required|integer|exists:products,id',
             'selectedProducts.*.name' => 'required|string|max:255',
             'selectedProducts.*.size' => 'required|string',
+            'selectedProducts.*.size_id' => 'required|integer',
             'selectedProducts.*.price' => 'required|integer|min:0',
             'selectedProducts.*.quantity' => 'required|integer|min:1',
             'totalPrice' => 'required|integer|min:0',

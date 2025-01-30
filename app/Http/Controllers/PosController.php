@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PosRequest;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Services\PosService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PosController extends Controller
@@ -14,25 +16,41 @@ class PosController extends Controller
         return view('pages.admin.pos.index');
     }
 
-    public function store(PosRequest $request)
+    public function store(Request $request)
     {
-        if(!$request->validated())
-        {
+        $validateData = $request->validate([
+            'selectedProducts' => 'required|array',
+            'selectedProducts.*.id' => 'required|integer|exists:products,id',
+            'selectedProducts.*.name' => 'required|string|max:255',
+            'selectedProducts.*.size' => 'required|string',
+            'selectedProducts.*.size_id' => 'required|integer',
+            'selectedProducts.*.price' => 'required|integer|min:0',
+            'selectedProducts.*.quantity' => 'required|integer|min:1',
+            'totalPrice' => 'required|integer|min:0',
+            'totalQuantity' => 'required|integer|min:0',
+        ]);
+
+        if (!$validateData) {
             return response()->json(['message' => 'Order submission failed.'], 401);
         }
-        
-        // Validasi data
-        $data = $request->validated();
 
-        // Mulai transaksi untuk menjaga konsistensi data
+        // validasi stock barang
+        $posService = new PosService();
+        $validateStock = $posService->validateStock($validateData);
+
+        if ($validateStock['status'] === 'error') {
+            return response()->json(['message' => $validateStock['message']], 401);
+        }
+
+        // // Mulai transaksi untuk menjaga konsistensi data
         DB::beginTransaction();
 
         try {
             // Simpan data pesanan utama (orders) dengan insertGetId
             $orderId = DB::table('orders')->insertGetId([
                 'custumer_name' => '-', // Nama pelanggan
-                'amount' => $data['totalPrice'],
-                'quantities' => $data['totalQuantity'],
+                'amount' => $validateData['totalPrice'],
+                'quantities' => $validateData['totalQuantity'],
                 'payment_method' => null, // Misalnya tidak ada metode pembayaran
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -49,7 +67,7 @@ class PosController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
-            }, $data['selectedProducts']);
+            }, $validateData['selectedProducts']);
 
             // Batch insert ke tabel order_product
             DB::table('order_product')->insert($orderProducts);

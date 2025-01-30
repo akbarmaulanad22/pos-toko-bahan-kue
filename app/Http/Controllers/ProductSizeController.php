@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductSizeRequest;
 use App\Models\Product;
 use App\Models\ProductSize;
+use App\Services\ProductService;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Exception;
 
@@ -136,4 +137,6 @@ class ProductSizeController extends Controller
             return redirect()->route('sizes.index', ['product' => $product])->with('SUCCESS', 'Ukuran gagal dihapus');
         }
     }
+
+
 }

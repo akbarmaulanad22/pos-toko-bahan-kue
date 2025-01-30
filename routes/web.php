@@ -41,41 +41,48 @@ Route::get('/niggadilarangmasukwak/register', [AuthController::class, 'registrat
 Route::post('/niggadilarangmasukwak/register', [AuthController::class, 'registration'])->middleware('guest');
 
 Route::post('/idihniggamaukemana/logout', [AuthController::class, 'logout'])
-->middleware('auth')
-->name('logout');
+    ->middleware('auth')
+    ->name('logout');
 
 Route::get('/areaorangpadang/products/ajax', [ProductController::class, 'ajax'])->name('products.ajax');
 
 Route::prefix('areaorangpadang')
     ->middleware(['auth'])
     ->group(function () {
-        Route::get('/dashboard', DashboardController::class)->name('dashboard');
+        // only superadmin, admin can direct this page
+        Route::middleware(['notcashieer'])->group(function () {
+            Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
+            Route::resource('/financial-trackers', FinancialTrackerController::class);
+
+            Route::resource('/roles', RoleController::class)->except(['show']);
+
+            Route::resource('/staffs', StaffController::class);
+
+            
+            Route::get('/log/products', [LogController::class, 'products'])->name('log.products');
+            Route::get('/log/finacial-trackers', [LogController::class, 'financialTrackers'])->name('log.finacial-trackers');
+            Route::get('/log/stockflows', [LogController::class, 'stockflows'])->name('log.stockflows');
+            Route::get('/log/staffs', [LogController::class, 'staffs'])->name('log.staffs');
+        });
+        
         Route::resource('/products/{product}/sizes', ProductSizeController::class);
         Route::resource('/products', ProductController::class);
         
-        Route::resource('/categories', CategoryController::class);
-        
-        Route::resource('/financial-trackers', FinancialTrackerController::class);
-        
+        Route::get('/stockflow/product-sizes-json', [StockFlowController::class, 'getSizesProduct'])->name('sizes.json');
         Route::resource('/stockflow', StockFlowController::class);
         
-        Route::resource('/roles', RoleController::class)->except(['show']);
-
-        Route::resource('/staffs', StaffController::class);
-        
-        Route::get('/log/products', [LogController::class, 'products'])->name('log.products');
-        Route::get('/log/finacial-trackers', [LogController::class, 'financialTrackers'])->name('log.finacial-trackers');
-        Route::get('/log/stockflows', [LogController::class, 'stockflows'])->name('log.stockflows');
-        Route::get('/log/staffs', [LogController::class, 'staffs'])->name('log.staffs');
+        Route::resource('/categories', CategoryController::class);
 
         Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
         Route::post('/pos', [PosController::class, 'store'])->name('pos.store');
-        
+
         Route::get('/account', [AccountController::class, 'index'])->name('account.index');
         Route::put('/account/{user}', [AccountController::class, 'update'])->name('account.update');
 
-        Route::get('/orders/products/list', [OrderController::class, 'listProducts'])->name('orders.list.products');
-        Route::post('/orders/add', [OrderController::class, 'addOrder'])->name('orders.add');
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('/orders/{orderId:int}', [OrderController::class, 'show'])->name('orders.show');
+        Route::patch('/orders/{orderId:int}', [OrderController::class, 'cancel'])->name('orders.cancel');
+        Route::patch('/orders/{orderId:int}/{sizeId:int}', [OrderController::class, 'cancelPerItem'])->name('orders.cancelPerItem');
     });

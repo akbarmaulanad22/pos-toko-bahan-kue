@@ -14,7 +14,7 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->words(3, true),
             'image' => 'https://picsum.photos/seed/picsum/400/400',
             'sku' => $this->faker->isbn10(),
             'category_id' => 1,

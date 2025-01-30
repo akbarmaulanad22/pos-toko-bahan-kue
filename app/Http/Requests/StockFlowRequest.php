@@ -26,6 +26,7 @@ class StockFlowRequest extends FormRequest
         return [
             'type' => 'required',
             'product_id' => 'required',
+            'size_id' => 'required',
             'quantity' => 'required|numeric',
             'description' => 'max:100',
         ];

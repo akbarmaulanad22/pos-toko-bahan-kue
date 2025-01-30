@@ -15,8 +15,9 @@ class CreateStockFlowsTable extends Migration
     {
         Schema::create('stock_flows', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['INCOMING', 'OUTGOING']);
+            $table->enum('type', ['INCOMING', 'OUTGOING', 'MISSING']);
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('size_id')->constrained('product_sizes')->cascadeOnDelete();
             $table->integer('quantity');
             $table->string('description')->nullable();
             $table->timestamps();

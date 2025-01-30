@@ -11,9 +11,4 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
-    // Relasi One to Many
-    public function products()
-    {
-        return $this->hasMany(OrderProduct::class);
-    }
 }

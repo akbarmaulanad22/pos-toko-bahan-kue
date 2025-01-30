@@ -21,7 +21,6 @@ class ProductSize extends Model
     {
         return 'slug';
     }
-    
 
     /**
      * Return the sluggable configuration array for this model.
@@ -40,5 +39,10 @@ class ProductSize extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function stockFlows()
+    {
+        return $this->hasMany(StockFlow::class);
     }
 }

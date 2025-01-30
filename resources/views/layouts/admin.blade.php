@@ -12,21 +12,13 @@
         integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        ::-webkit-scrollbar {
-            width: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-
-            background-color: #fff;
-            -webkit-box-shadow: inset 0 0 6px rgba(90, 90, 90, 0.7);
-        }
-
         body {
             display: flex;
             min-height: 100vh;
             margin: 0;
             overflow-x: hidden;
+            /* scrollbar-width: thin; */
+
         }
 
         .sidebar {

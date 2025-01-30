@@ -15,11 +15,11 @@ class CreateProductSizesTable extends Migration
     {
         Schema::create('product_sizes', function (Blueprint $table) {
             $table->id();
-             $table->string('size');
-             $table->integer('price');
+            $table->string('size');
+            $table->integer('price');
             $table->integer('modal');
             $table->integer('stock');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

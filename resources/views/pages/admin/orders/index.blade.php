@@ -29,29 +29,52 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Order ID</th>
-                        <th scope="col">Customer</th>
-                        {{-- <th scope="col">Amount</th> --}}
-                        {{-- <th scope="col">Quantities</th> --}}
-                        <th scope="col">Payment</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Detail</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Entity Name</th>
+                        <th scope="col">Entity Type</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">AZKA0001</th>
-                        <td>Azka</td>
-                        {{-- <td>Rp. 100.000,00</td> --}}
-                        {{-- <td>10</td> --}}
-                        <td>Transfer</td>
-                        <td class="text-nowrap">10, August 2022</td>
-                        <td class="text-center">
-                            <a href="">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                        </td>
-                    </tr>
+                    @foreach ($orders as $order)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $order->entity_name }}</td>
+                            <td>{{ $order->entity_type }}</td>
+                            <td>{{ $order->type }}</td>
+                            <td>{{ $order->status }}</td>
+                            <td>
+                                {{-- <form action="{{ route('orders.cancel', ['orderId' => $order->id]) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button type="submit" class="btn text-decoration-underline text-primary">
+                                        Detail
+                                    </button>
+                                </form> --}}
+
+                                <a href="{{ route('orders.show', ['orderId' => $order->id]) }}">Detail</a>
+
+                                {{-- <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-light">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-light">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-light">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div> --}}
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
             {{-- pagination here --}}

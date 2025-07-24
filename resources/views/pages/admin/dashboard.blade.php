@@ -91,10 +91,10 @@
         .table-wrapper:hover {
             transform: translateY(-5px);
             /* font-size: 1.25rem;
-                font-weight: 600;
-                margin-bottom: 15px;
-                color: #333;
-                text-align: center; */
+                                                                                                            font-weight: 600;
+                                                                                                            margin-bottom: 15px;
+                                                                                                            color: #333;
+                                                                                                            text-align: center; */
         }
 
         .table {
@@ -153,160 +153,67 @@
 
     {{-- content --}}
     <div class="row mb-4">
-        <!-- Card 1: Total Barang Terjual -->
-        <div class="col-md-6 col-lg-3 mb-4">
-            <div class="card custom-card">
-                <div class="card-header bg-primary text-white">
-                    Total Barang Keluar
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">1234</h5>
-                    <p class="card-text">Jumlah barang yang telah terjual</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-link">Lihat Detail</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 2: Total Pendapatan Bersih -->
-        <div class="col-md-6 col-lg-3 mb-4">
-            <div class="card custom-card">
-                <div class="card-header bg-success text-white">
-                    Total Pendapatan Bersih
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Rp 15,000,000</h5>
-                    <p class="card-text">Pendapatan bersih dari penjualan</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-link">Lihat Detail</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3: Total Transaksi -->
-        <div class="col-md-6 col-lg-3 mb-4">
-            <div class="card custom-card">
-                <div class="card-header bg-info text-white">
-                    Total Transaksi
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">567</h5>
-                    <p class="card-text">Jumlah total transaksi yang telah dilakukan</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-link">Lihat Detail</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4: Total Barang Masuk -->
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="card custom-card">
                 <div class="card-header bg-warning text-white">
-                    Total Barang Masuk
+                    Total Role
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">456</h5>
-                    <p class="card-text">Jumlah barang yang masuk ke dalam inventaris</p>
+                    <h5 class="card-title">{{ $roleCount }}</h5>
+                    <p class="card-text">Jumlah peran pengguna</p>
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="btn btn-link">Lihat Detail</a>
+                    <a href="{{ route('roles.index') }}" class="btn btn-link">Lihat Detail</a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Row untuk tabel dalam satu baris -->
-    <div class="row mb-4">
-        <!-- Data Barang -->
-        <div class="col-lg-4 col-md-6 pb-4">
-            <div class="table-wrapper">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Nama Barang</th>
-                            <th>Jumlah Keluar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Sepatu Olahraga</td>
-                            <td>150</td>
-                        </tr>
-                        <tr>
-                            <td>Baju Kaos</td>
-                            <td>200</td>
-                        </tr>
-                        <tr>
-                            <td>Celana Jeans</td>
-                            <td>180</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card custom-card">
+                <div class="card-header bg-primary text-white">
+                    Total Staff
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ $staffCount }}</h5>
+                    <p class="card-text">Jumlah staff aktif</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ route('staffs.index') }}" class="btn btn-link">Lihat Detail</a>
+                </div>
             </div>
         </div>
 
-        <!-- Data Transaksi -->
-        <div class="col-lg-4 col-md-6 pb-4">
-            <div class="table-wrapper">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Kode Transaksi</th>
-                            <th>Jumlah</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>TX001</td>
-                            <td>3</td>
-                            <td>Rp 900,000</td>
-                        </tr>
-                        <tr>
-                            <td>TX002</td>
-                            <td>2</td>
-                            <td>Rp 400,000</td>
-                        </tr>
-                        <tr>
-                            <td>TX003</td>
-                            <td>5</td>
-                            <td>Rp 1,250,000</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card custom-card">
+                <div class="card-header bg-success text-white">
+                    Total Category
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ $categoryCount }}</h5>
+                    <p class="card-text">Jumlah kategori</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ route('categories.index') }}" class="btn btn-link">Lihat Detail</a>
+                </div>
             </div>
         </div>
 
-        <!-- Data Barang Masuk -->
-        <div class="col-lg-4 col-md-6 pb-4">
-            <div class="table-wrapper">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Nama Barang</th>
-                            <th>Jumlah Masuk</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Sepatu Olahraga</td>
-                            <td>50</td>
-                        </tr>
-                        <tr>
-                            <td>Baju Kaos</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td>Celana Jeans</td>
-                            <td>80</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card custom-card">
+                <div class="card-header bg-info text-white">
+                    Total Product
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ $productCount }}</h5>
+                    <p class="card-text">Jumlah total produk</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ route('products.index') }}" class="btn btn-link">Lihat Detail</a>
+                </div>
             </div>
         </div>
+
+
     </div>
 
     {{-- end content --}}

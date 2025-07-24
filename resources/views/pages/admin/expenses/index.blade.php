@@ -16,7 +16,7 @@
                 </ul>
             </div>
             <div class="d-flex justify-content-end">
-                <a href="{{ route('financial-trackers.create') }}" class="btn btn-light">
+                <a href="{{ route('expenses.create') }}" class="btn btn-light">
                     <i class="bi bi-add"></i>
                     Create
                 </a>
@@ -29,32 +29,28 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Type</th>
                         <th scope="col">Amount</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($financials as $financial)
+                    @forelse ($expenses as $expense)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $financial->description }}</td>
-                            <td>{{ $financial->type }}</td>
-                            <td>{{ $financial->amount }}</td>
+                            <td>{{ $expense->description }}</td>
+                            <td>{{ $expense->amount }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-3 px-4">
 
-                                    <a href="{{ route('financial-trackers.show', ['financial_tracker' => $financial]) }}"
+                                    <a href="{{ route('expenses.show', ['expense' => $expense]) }}"
                                         class="text-decoration-none">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="{{ route('financial-trackers.edit', ['financial_tracker' => $financial]) }}"
+                                    <a href="{{ route('expenses.edit', ['expense' => $expense]) }}"
                                         class="text-decoration-none">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form
-                                        action="{{ route('financial-trackers.destroy', ['financial_tracker' => $financial]) }}"
-                                        method="POST">
+                                    <form action="{{ route('expenses.destroy', ['expense' => $expense]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"

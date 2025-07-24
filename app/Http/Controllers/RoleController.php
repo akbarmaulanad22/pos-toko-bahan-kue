@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Services\LogRoleService;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    protected LogRoleService $logRoleService;
+
+    public function __construct(LogRoleService $logRoleService)
+    {
+        $this->logRoleService = $logRoleService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -45,6 +53,8 @@ class RoleController extends Controller
                 'name' => 'required'
             ])
         );
+
+        $this->logRoleService->insert($request, 'insert');
 
         return redirect()->route('roles.index');
     }
@@ -89,6 +99,8 @@ class RoleController extends Controller
             ])
         );
 
+        $this->logRoleService->insert($request, 'update');
+
         return redirect()->route('roles.index');
     }
 
@@ -101,6 +113,7 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $role->delete();
+        $this->logRoleService->insert(new Request($role->toArray()), 'delete');
 
         return redirect()->route('roles.index');
     }

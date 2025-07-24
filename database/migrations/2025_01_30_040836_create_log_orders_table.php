@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFinancialTrackersTable extends Migration
+class CreateLogOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateFinancialTrackersTable extends Migration
      */
     public function up()
     {
-        Schema::create('financial_trackers', function (Blueprint $table) {
+        Schema::create('log_orders', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['INCOME', 'EXPENSE']);
-            $table->integer('amount');
-            $table->string('description');
-            $table->timestamps();
+            $table->enum('action', ['insert', 'update', 'delete']);
+            $table->text('input');
+            $table->string('created_by');
+            $table->timestamp('created_at')->default(now());
         });
     }
 
@@ -29,6 +29,6 @@ class CreateFinancialTrackersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('financial_trackers');
+        Schema::dropIfExists('log_orders');
     }
 }

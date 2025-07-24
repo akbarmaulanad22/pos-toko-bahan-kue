@@ -27,9 +27,9 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="w-100">
                         <div class="invoice-header d-flex align-items-center justify-content-start gap-2">
-                            INV4257-09-011
+                            #{{ $order->id }}
                             <span
-                                class="badge {{ $order->status == 'Cancelled' ? 'bg-danger' : 'bg-success' }} status-badge">
+                                class="badge {{ $order->status == 'Cancelled' ? 'bg-danger' : ($order->status == 'Pending' ? 'bg-warning' : '') }} status-badge">
                                 {{ $order->status }}
                             </span>
                         </div>
@@ -37,7 +37,7 @@
                             <div class="d-block d-md-inline">
                                 {{ $order->total_price }} IDR <span class="d-none d-md-inline">&middot;</span>
                                 <span class="d-block d-md-inline">
-                                    Paid at {{ date('d m Y', strtotime($order->created_at)) }}
+                                    Paid at {{ date('d m Y', strtotime($order->pay_at)) }}
                                 </span>
                             </div>
                             @if (Carbon\Carbon::parse($order->created_at)->diffInDays(Carbon\Carbon::now()) < 1)
@@ -79,7 +79,7 @@
 
                     <div class="col-md-6">
                         <p class="mb-1 fw-bold">Invoice Number</p>
-                        <p>INV4257-09-011</p>
+                        <p>{{ $order->id }}</p>
                         <p class="mb-1 fw-bold">Issued</p>
                         <p>
                             {{ $order->created_at }}
@@ -110,12 +110,8 @@
                                 @foreach ($orderDetails as $orderDetail)
                                     <tr>
                                         <th>
-                                            <img src="{{ asset('storage/' . $orderDetail->product_image) }}" loading="lazy">
-                                            {{ $orderDetail->product_name }}
-                                        </th>
-                                        <td>
                                             {{ $orderDetail->size }}
-                                        </td>
+                                        </th>
                                         <td>
                                             {{ $orderDetail->quantity }}
                                         </td>
@@ -146,9 +142,6 @@
                                 @foreach ($orderDetails as $orderDetail)
                                     <tr>
                                         <th>
-                                            <img src="{{ asset('storage/' . $orderDetail->product_image) }}"
-                                                loading="lazy">
-                                            {{-- <img src="{{ storage('') }}" alt="Product 1" class="me-2"> --}}
                                             {{ $orderDetail->product_name }}
                                         </th>
                                         <td>

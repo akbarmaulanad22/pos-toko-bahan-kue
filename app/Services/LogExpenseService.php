@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Models\LogFinancialTracker;
+use App\Models\LogExpense;
 use Exception;
 use Illuminate\Http\Request;
 
-class LogFinancialTrackerService
+class LogExpenseService
 {
     public function insert(Request $request, $action)
     {
         try {
-            LogFinancialTracker::create([
-                'input' => implode(', ', $request->only(['type', 'amount', 'description'])),
+            LogExpense::create([
+                'input' => implode(', ', $request->only(['amount', 'description'])),
                 'action' => $action,
                 'created_by' => auth()->user()->name
             ]);

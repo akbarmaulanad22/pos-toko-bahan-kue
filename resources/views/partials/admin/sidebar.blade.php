@@ -8,46 +8,44 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
             </li>
-
-            <li class="nav-item">
-                <a href="#" class="menu-toggle" data-target="submenu-financials">Financials</a>
-                <div class="submenu" id="submenu-financials">
-                    <a href="{{ route('financial-trackers.index') }}" class="text-nowrap">Trackers</a>
-                    <a href="#" class="text-nowrap">Reports</a>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('staffs.index') }}">Staff</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('roles.index') }}">Roles</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('staffs.index') }}">Staff</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('categories.index') }}">Categories</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('products.index') }}">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('expenses.index') }}">Expenses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('financial-reports') }}">Laporan keuangan</a>
+            </li>
+            <li class="nav-item">
                 <a href="#" class="menu-toggle" data-target="submenu-log">Log</a>
                 <div class="submenu" id="submenu-log">
+                    <a href="{{ route('log.roles') }}" class="text-nowrap">Roles</a>
+                    <a href="{{ route('log.products') }}" class="text-nowrap">Staff</a>
+                    <a href="{{ route('log.products') }}" class="text-nowrap">Categories</a>
                     <a href="{{ route('log.products') }}" class="text-nowrap">Products</a>
-                    <a href="{{ route('log.finacial-trackers') }}" class="text-nowrap">Financial Trackers</a>
-                    <a href="#" class="text-nowrap">Stock Flow</a>
-                    <a href="#" class="text-nowrap">Emplooyees</a>
+                    <a href="{{ route('log.products') }}" class="text-nowrap">Expenses</a>
+                    <a href="{{ route('log.products') }}" class="text-nowrap">Orders</a>
                 </div>
             </li>
         @endif
+
+
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('products.index') }}">Products</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('categories.index') }}">Categories</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('stockflow.index') }}">StockFlow</a>
+            <a class="nav-link" href="{{ route('orders.index') }}">Orders</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('pos.index') }}">POS</a>
         </li>
-        {{-- <li class="nav-item">
-            <a class="nav-link" href="{{ route('orders.index') }}">Orders</a>
-        </li> --}}
 
     </ul>
 

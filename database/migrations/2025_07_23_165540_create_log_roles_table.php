@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogFinancialTrackersTable extends Migration
+class CreateLogRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateLogFinancialTrackersTable extends Migration
      */
     public function up()
     {
-        Schema::create('log_financial_trackers', function (Blueprint $table) {
+        Schema::create('log_roles', function (Blueprint $table) {
             $table->id();
             $table->enum('action', ['insert', 'update', 'delete']);
             $table->text('input');
@@ -29,6 +29,6 @@ class CreateLogFinancialTrackersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log_financial_trackers');
+        Schema::dropIfExists('log_roles');
     }
 }

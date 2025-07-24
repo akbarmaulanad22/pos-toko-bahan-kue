@@ -373,6 +373,29 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label>Status Payment</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="status" value="Completed" checked> Completed
+                        </label>
+                        <label>
+                            <input type="radio" name="status" value="Pending"> Pending
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="payment_method" value="DEBIT" checked> DEBIT
+                        </label>
+                        <label>
+                            <input type="radio" name="payment_method" value="CASH"> CASH
+                        </label>
+                    </div>
+                </div>
 
                 <div class="total-price">
                     Total: <span id="totalPrice">Rp 0</span>
@@ -533,6 +556,8 @@
         async function submitOrder() {
             const entityName = document.getElementById('entity_name').value;
             const entityType = document.querySelector('input[name="entity_type"]:checked')?.value;
+            const status = document.querySelector('input[name="status"]:checked')?.value;
+            const paymentMethod = document.querySelector('input[name="payment_method"]:checked')?.value;
 
             if (!entityName || !entityType || cart.length === 0) {
                 document.getElementById('errorMessage').textContent =
@@ -543,6 +568,8 @@
             const orderData = {
                 entity_name: entityName,
                 entity_type: entityType,
+                status: status,
+                payment_method: paymentMethod,
                 details: cart.map(item => ({
                     product_name: item.product_name,
                     product_size_id: item.product_size_id,

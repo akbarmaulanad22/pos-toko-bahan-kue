@@ -19,7 +19,9 @@ class CreateOrdersTable extends Migration
             $table->enum('entity_type', ['Customer', 'Supplier']);
             $table->enum('type', ['In', 'Out']);
             $table->enum('status', ['Completed', 'Pending', 'Cancelled']);
+            $table->enum('payment_method', ['DEBIT', 'CASH']);
             $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('pay_at')->nullable();
             $table->timestamp('cancelled_at')->nullable();
         });
     }

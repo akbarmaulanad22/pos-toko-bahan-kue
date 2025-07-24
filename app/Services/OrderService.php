@@ -16,6 +16,9 @@ class OrderService
         $validator = Validator::make($request->all(), [
             'entity_name' => 'required|string|max:255',
             'entity_type' => 'required',
+            // 'order_type' => 'required',
+            'status' => 'required',
+            'payment_method' => 'required',
             'details' => 'required|array',
             'details.*.product_size_id' => 'required|integer',
             'details.*.product_name' => 'required',
@@ -106,7 +109,9 @@ class OrderService
                 'entity_name' => $order['entity_name'],
                 'entity_type' => $order['entity_type'],
                 'type' => $order['entity_type'] === 'Customer' ? 'Out' : 'In',
-                'status' => 'Completed',
+                'status' => $order['status'],
+                'payment_method' => $order['payment_method'],
+                'pay_at' => now(),
             ]);
 
             // Ambil harga untuk semua product_size_id yang ada dalam satu query
@@ -115,8 +120,13 @@ class OrderService
                 ->get(['id', 'price'])
                 ->keyBy('id'); // Menggunakan id sebagai key
 
+            $totalPrice = 0;
+
             // memetakan detail order
-            $orderProducts = array_map(function ($product) use ($orderId, $prices) {
+            $orderProducts = array_map(function ($product) use ($orderId, $prices, &$totalPrice) {
+
+                $totalPrice += ($prices->get($product['product_size_id'])->price * $product['quantity']);
+                
                 return [
                     'order_id' => $orderId,
                     'product_size_id' => $product['product_size_id'],
@@ -130,6 +140,11 @@ class OrderService
 
             // Commit transaksi
             DB::commit();
+
+            return [
+                'order_id' => $orderId, 
+                'total_price' => $totalPrice
+            ];
         } catch (\Exception $exception) {
             // Rollback jika ada error
             DB::rollBack();
@@ -168,4 +183,37 @@ class OrderService
 
         return $caseQuery;
     }
+
+     public function decrementStock(Collection $orderDetails)
+    {
+        if ($orderDetails->isEmpty()) {
+            throw new \Exception('Tidak ada detail order untuk diproses.');
+        }
+
+        $field = 'stock';
+        $cases = [];
+
+        foreach ($orderDetails as $detail) {
+            $id = (int) ($detail->product_size_id ?? 0); // Default ke 0 jika tidak valid
+            $quantity = (int) ($detail->quantity ?? 0); // Default ke 0 jika tidak valid
+
+            // Abaikan jika ID atau quantity tidak valid
+            if ($id === 0 || $quantity === 0) {
+                continue;
+            }
+
+            $cases[] = "WHEN id = {$id} THEN {$field} - ({$quantity})";
+        }
+
+        // Jika tidak ada CASE yang valid, hentikan proses
+        if (empty($cases)) {
+            throw new \Exception('Tidak ada data valid untuk di-update.');
+        }
+
+        // Buat query CASE
+        $caseQuery = 'CASE ' . implode(' ', $cases) . " ELSE {$field} END";
+
+        return $caseQuery;
+    }
+
 }

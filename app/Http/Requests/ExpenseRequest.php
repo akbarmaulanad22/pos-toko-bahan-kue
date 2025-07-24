@@ -26,7 +26,6 @@ class FinancialTrackerRequest extends FormRequest
         return [
             'description' => 'required|max:100',
             'amount' => 'required|numeric',
-            'type' => 'required',
         ];
     }
 }

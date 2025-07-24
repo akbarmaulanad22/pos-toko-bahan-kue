@@ -73,6 +73,7 @@ Route::prefix('areaorangpadang')
             Route::get('/financial-reports', FinancialReportController::class)->name('financial-reports');
 
             Route::get('/log/roles', [LogController::class, 'roles'])->name('log.roles');
+            Route::get('/log/categories', [LogController::class, 'categories'])->name('log.categories');
             Route::get('/log/products', [LogController::class, 'products'])->name('log.products');
             Route::get('/log/staffs', [LogController::class, 'staffs'])->name('log.staffs');
         });

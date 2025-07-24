@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LogCategory;
 use App\Models\LogProduct;
 use App\Models\LogRole;
 use App\Models\LogStaff;
@@ -29,6 +30,14 @@ class LogController extends Controller
         return view('pages.admin.logs.roles', [
             'title' => 'Log Roles',
             'logs' => LogRole::all()
+        ]);
+    }
+
+    public function categories()
+    {
+        return view('pages.admin.logs.categories', [
+            'title' => 'Log Categories',
+            'logs' => LogCategory::all()
         ]);
     }
 }

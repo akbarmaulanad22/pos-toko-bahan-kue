@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Services\LogCategoryService;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
+    protected LogCategoryService $logCategoryService;
+
+    public function __construct(LogCategoryService $logCategoryService)
+    {
+        $this->logCategoryService = $logCategoryService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -52,6 +61,8 @@ class CategoryController extends Controller
                 'image' => $path,
                 'slug' => $slug,
             ]);
+
+            $this->logCategoryService->insert(new Request($request->all()), 'insert');
 
             return redirect()->route('categories.index')->with('SUCCESS', 'Kategori berhasil ditambahkan');
         } catch (Exception $exception) {
@@ -113,6 +124,8 @@ class CategoryController extends Controller
                 'image' => $path,
             ]);
 
+            $this->logCategoryService->insert(new Request($request->all()), 'update');
+
             return redirect()->route('categories.index')->with('SUCCESS', 'Kategori berhasil diubah');
         } catch (Exception $exception) {
             return redirect()->route('categories.index')->with('SUCCESS', 'Kategori gagal diubah');
@@ -130,6 +143,8 @@ class CategoryController extends Controller
         try {
             $category->delete();
             Storage::delete($category->image);
+
+            $this->logCategoryService->insert(new Request($category->toArray()), 'delete');
 
             return redirect()->route('categories.index')->with('SUCCESS', 'Kategori berhasil dihapus');
         } catch (Exception $exception) {

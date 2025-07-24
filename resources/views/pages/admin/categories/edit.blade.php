@@ -6,6 +6,7 @@
             enctype="multipart/form-data">
 
             @csrf
+            @method('PUT')
 
             <div class="col-md-6">
                 <label for="name" class="form-label">Name</label>
@@ -23,7 +24,7 @@
                 <img id="imagePreview" class="img-fluid mb-2" style="display: block"
                     src="{{ asset('storage/' . $category->image) }}">
                 <input type="file" class="form-control" id="image" name="image" aria-describedby="imageFeedback"
-                    required onchange="imageInputHandler(this)">
+                    onchange="imageInputHandler(this)">
                 <div id="imageFeedbackTerms" class="valid-feedback d-block">
                     *Optional image, Only 400x400
                 </div>

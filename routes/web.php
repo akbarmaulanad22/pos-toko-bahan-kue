@@ -70,12 +70,15 @@ Route::prefix('areaorangpadang')
             Route::put('/orders/{orderId:int}/pay', [OrderController::class, 'pay'])->name('orders.pay');
             Route::patch('/orders/{orderId:int}/{sizeId:int}', [OrderController::class, 'cancelPerItem'])->name('orders.cancelPerItem');
 
-            Route::get('/financial-reports', FinancialReportController::class)->name('financial-reports');
+            Route::get('/financial-reports', [FinancialReportController::class, 'index'])->name('financial-reports.index');
+            Route::get('/financial-reports/export', [FinancialReportController::class, 'export'])->name('financial-reports.export');
 
             Route::get('/log/roles', [LogController::class, 'roles'])->name('log.roles');
+            Route::get('/log/staffs', [LogController::class, 'staffs'])->name('log.staffs');
             Route::get('/log/categories', [LogController::class, 'categories'])->name('log.categories');
             Route::get('/log/products', [LogController::class, 'products'])->name('log.products');
-            Route::get('/log/staffs', [LogController::class, 'staffs'])->name('log.staffs');
+            Route::get('/log/expenses', [LogController::class, 'expenses'])->name('log.expenses');
+            Route::get('/log/orders', [LogController::class, 'orders'])->name('log.orders');
         });
 
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

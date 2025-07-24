@@ -24,17 +24,17 @@
                 <a class="nav-link" href="{{ route('expenses.index') }}">Expenses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('financial-reports') }}">Laporan keuangan</a>
+                <a class="nav-link" href="{{ route('financial-reports.index') }}">Financial Reports</a>
             </li>
             <li class="nav-item">
                 <a href="#" class="menu-toggle" data-target="submenu-log">Log</a>
                 <div class="submenu" id="submenu-log">
                     <a href="{{ route('log.roles') }}" class="text-nowrap">Roles</a>
                     <a href="{{ route('log.products') }}" class="text-nowrap">Staff</a>
-                    <a href="{{ route('log.products') }}" class="text-nowrap">Categories</a>
+                    <a href="{{ route('log.categories') }}" class="text-nowrap">Categories</a>
                     <a href="{{ route('log.products') }}" class="text-nowrap">Products</a>
-                    <a href="{{ route('log.products') }}" class="text-nowrap">Expenses</a>
-                    <a href="{{ route('log.products') }}" class="text-nowrap">Orders</a>
+                    <a href="{{ route('log.expenses') }}" class="text-nowrap">Expenses</a>
+                    <a href="{{ route('log.orders') }}" class="text-nowrap">Orders</a>
                 </div>
             </li>
         @endif

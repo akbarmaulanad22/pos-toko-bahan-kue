@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\LogCategory;
+use App\Models\LogExpense;
+use App\Models\LogOrder;
 use App\Models\LogProduct;
 use App\Models\LogRole;
 use App\Models\LogStaff;
@@ -38,6 +40,22 @@ class LogController extends Controller
         return view('pages.admin.logs.categories', [
             'title' => 'Log Categories',
             'logs' => LogCategory::all()
+        ]);
+    }
+
+    public function expenses()
+    {
+        return view('pages.admin.logs.expenses', [
+            'title' => 'Log Expenses',
+            'logs' => LogExpense::all()
+        ]);
+    }
+
+    public function orders()
+    {
+        return view('pages.admin.logs.orders', [
+            'title' => 'Log Orders',
+            'logs' => LogOrder::all()
         ]);
     }
 }

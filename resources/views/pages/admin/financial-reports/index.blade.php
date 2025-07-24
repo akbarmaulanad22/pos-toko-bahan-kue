@@ -16,7 +16,7 @@
                 </ul>
             </div>
             <div class="d-flex justify-content-end">
-                <a href="#" class="btn btn-light">
+                <a href="{{ route('financial-reports.export') }}" class="btn btn-light">
                     <i class="bi bi-add"></i>
                     Export
                 </a>
